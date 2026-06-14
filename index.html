@@ -81,6 +81,27 @@
     #message:empty {
       display: none;
     }
+
+    footer {
+      position: fixed;
+      left: 50%;
+      bottom: 15px;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      user-select: text;
+    }
+
+    footer a {
+      color: #0078d7;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -89,10 +110,16 @@
   <div id="content">
     <div id="title">VRChatの写真をドラッグ&ドロップ</div>
     <div id="subtitle">撮影したワールドページを開きます</div>
-    <div id="note"></div>
+    <div id="note">ブラウザ上でローカル動作します</div>
   </div>
 
   <div id="message"></div>
+
+   <footer>
+    <a href="https://github.com/hobione2k/VRCPhotoWorldPage.github.io" target="_blank" rel="noopener noreferrer">Repository</a>
+    |
+    <a href="https://github.com/hobione2k/VRCPhotoWorldPage.github.io/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a>
+  </footer>
 
   <script>
     const VRCHAT_WORLD_URL_FORMAT = "https://vrchat.com/home/world/{}/info";

@@ -45,7 +45,7 @@
     }
 
     #title {
-      font-size: 28px;
+      font-size: 22px;
       margin-bottom: 12px;
     }
 
@@ -53,6 +53,19 @@
       font-size: 16px;
       color: #666;
       margin-bottom: 16px;
+    }
+
+    #uploadLink {
+      display: inline-block;
+      margin-bottom: 16px;
+      font-size: 15px;
+      color: #0078d7;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #uploadLink:hover {
+      text-decoration: underline;
     }
 
     #note {
@@ -108,8 +121,11 @@
   <div id="dropOverlay"></div>
 
   <div id="content">
-    <div id="title">VRChatの写真をドラッグ&ドロップ</div>
     <div id="subtitle">撮影したワールドページを開きます</div>
+    <div id="title">VRChatの写真をドラッグ&ドロップ</div>
+    <div id="subtitle">or</div>
+    <div><a id="uploadLink" href="#">写真を選択</a>
+    <input id="fileInput" type="file" accept=".png,image/png" multiple hidden></div>
     <div id="note">ブラウザ上でローカル動作します</div>
   </div>
 
@@ -200,41 +216,9 @@
       window.open(url, "_blank", "noopener,noreferrer");
     }
 
-    function showDragOverlay() {
-      dropOverlay.classList.add("dragover");
-    }
+    async function handleFiles(fileList) {
+      const files = Array.from(fileList);
 
-    function hideDragOverlay() {
-      dropOverlay.classList.remove("dragover");
-    }
-
-    window.addEventListener("dragenter", (e) => {
-      e.preventDefault();
-      dragCounter++;
-      showDragOverlay();
-      setMessage("");
-    });
-
-    window.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      showDragOverlay();
-    });
-
-    window.addEventListener("dragleave", (e) => {
-      e.preventDefault();
-      dragCounter--;
-      if (dragCounter <= 0) {
-        dragCounter = 0;
-        hideDragOverlay();
-      }
-    });
-
-    window.addEventListener("drop", async (e) => {
-      e.preventDefault();
-      dragCounter = 0;
-      hideDragOverlay();
-
-      const files = Array.from(e.dataTransfer.files);
       if (files.length === 0) {
         setMessage("ファイルがありません。");
         return;
@@ -272,11 +256,59 @@
 
       if (errors.length > 0) {
         setMessage(
-          `${uniqueWorldIDs.size}件のワールドURLを開きました。\n\n` + errors.join("\n")
+          `${uniqueWorldIDs.size}件のワールドURLを開きました。\n\n${errors.join("\n")}`
         );
       } else {
         setMessage(`${uniqueWorldIDs.size}件のワールドURLを開きました。`);
       }
+    }
+
+    function showDragOverlay() {
+      dropOverlay.classList.add("dragover");
+    }
+
+    function hideDragOverlay() {
+      dropOverlay.classList.remove("dragover");
+    }
+
+    uploadLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      fileInput.click();
+    });
+
+    fileInput.addEventListener("change", async (e) => {
+      setMessage("");
+      await handleFiles(e.target.files);
+      fileInput.value = "";
+    });
+
+    window.addEventListener("dragenter", (e) => {
+      e.preventDefault();
+      dragCounter++;
+      showDragOverlay();
+      setMessage("");
+    });
+
+    window.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      showDragOverlay();
+    });
+
+    window.addEventListener("dragleave", (e) => {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        hideDragOverlay();
+      }
+    });
+
+    window.addEventListener("drop", async (e) => {
+      e.preventDefault();
+      dragCounter = 0;
+      hideDragOverlay();
+      setMessage("");
+      await handleFiles(e.dataTransfer.files);
     });
   </script>
 </body>

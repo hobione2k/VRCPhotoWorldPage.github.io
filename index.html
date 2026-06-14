@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VRC Open World Page</title>
+  <title>VRCPhotoWorldPage</title>
   <style>
     html, body {
       margin: 0;
@@ -52,6 +52,15 @@
     #subtitle {
       font-size: 16px;
       color: #666;
+      margin-bottom: 16px;
+    }
+
+    #note {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.6;
+      text-align: left;
+      display: inline-block;
     }
 
     #message {
@@ -78,8 +87,12 @@
   <div id="dropOverlay"></div>
 
   <div id="content">
-    <div id="title">PNG画像をここにドラッグ&ドロップ</div>
+    <div id="title">VRChatの写真をドラッグ&ドロップ</div>
     <div id="subtitle"></div>
+    <div id="note">
+      - 写真撮影時にメタデータ保存を有効にしておく必要があります。<br>
+      - 画像にメタデータが付与されるのは公開ワールドのみです。
+    </div>
   </div>
 
   <div id="message"></div>
